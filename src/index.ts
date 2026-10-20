@@ -35,13 +35,34 @@ export default {
 
 		// API Routes
 		if (url.pathname === "/api/chat") {
-			// Handle POST requests for chat
-			if (request.method === "POST") {
-				return handleChatRequest(request, env);
+			// Allow requests from a standalone HTML file (file://) or another frontend.
+			const corsHeaders = {
+				"access-control-allow-origin": "*",
+				"access-control-allow-methods": "POST, OPTIONS",
+				"access-control-allow-headers": "Content-Type",
+			};
+
+			if (request.method === "OPTIONS") {
+				return new Response(null, { status: 204, headers: corsHeaders });
 			}
 
-			// Method not allowed for other request types
-			return new Response("Method not allowed", { status: 405 });
+			if (request.method === "POST") {
+				const response = await handleChatRequest(request, env);
+				const headers = new Headers(response.headers);
+				for (const [key, value] of Object.entries(corsHeaders)) {
+					headers.set(key, value);
+				}
+				return new Response(response.body, {
+					status: response.status,
+					statusText: response.statusText,
+					headers,
+				});
+			}
+
+			return new Response("Method not allowed", {
+				status: 405,
+				headers: corsHeaders,
+			});
 		}
 
 		// Handle 404 for unmatched routes
