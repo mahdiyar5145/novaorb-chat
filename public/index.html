@@ -140,6 +140,48 @@
 				font-size: 0.85rem;
 				color: var(--text-light);
 			}
+
+			/* Consistent pointer for all clickable controls */
+			button,
+			[role="button"],
+			a,
+			input[type="button"],
+			input[type="submit"],
+			input[type="reset"],
+			label[for],
+			select,
+			.clickable {
+				cursor: pointer;
+			}
+
+			button:disabled,
+			[role="button"][aria-disabled="true"],
+			input:disabled,
+			select:disabled {
+				cursor: not-allowed;
+			}
+
+			/* Avoid the browser's blue mouse-click focus ring, while
+			   retaining a visible focus indicator for keyboard users. */
+			button:focus:not(:focus-visible),
+			[role="button"]:focus:not(:focus-visible),
+			a:focus:not(:focus-visible),
+			input:focus:not(:focus-visible),
+			select:focus:not(:focus-visible),
+			textarea:focus:not(:focus-visible) {
+				outline: none;
+				box-shadow: none;
+			}
+
+			button:focus-visible,
+			[role="button"]:focus-visible,
+			a:focus-visible,
+			input:focus-visible,
+			select:focus-visible,
+			textarea:focus-visible {
+				outline: 2px solid #38bdf8;
+				outline-offset: 3px;
+			}
 		</style>
 	</head>
 	<body>
