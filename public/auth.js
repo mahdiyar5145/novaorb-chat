@@ -74,7 +74,7 @@
       if (mode === "login") {
         const { data, error } = await client.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        if (data.user) showSignedIn(data.user);
+        if (data.user) { showSignedIn(data.user); window.location.replace("/"); }
       } else {
         const { data, error } = await client.auth.signUp({
           email,
@@ -82,7 +82,7 @@
           options: { emailRedirectTo: window.location.origin + "/login.html" }
         });
         if (error) throw error;
-        if (data.session && data.user) showSignedIn(data.user);
+        if (data.session && data.user) { showSignedIn(data.user); window.location.replace("/"); }
         else status("Account created. Check your email to confirm your address.", "success");
       }
     } catch (error) {
